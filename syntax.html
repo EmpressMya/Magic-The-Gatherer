@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Syntax Guide</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html">Magic the Gatherer</a>
+      </div>
+      <div class="links">
+        <a href="random.html">Random Card</a>
+        <a href="syntax.html">Syntax Guide</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </nav>
+
+    <section class="syntax-guide">
+      <h1>Syntax Guide</h1>
+      <p>This is where we will explain the syntax of the search query.</p>
+      <h2>The Basics</h2>
+      <p>
+        <span>o:</span> This looks up specific text on a card. Example:
+        o:enchant will search for cards that have "enchant" in their text.
+      </p>
+      <p>
+        <span>t:</span> will look up all cards of a specific type. This can be
+        anything from a permanent or a creature/land type. For example t:Saga
+        will bring up every Saga card or t:cephalid will bring up every card
+        with the cephalid creatue type
+      </p>
+      <p>
+        <span>id:</span> This pulls up all cards in a commander's color
+        identity. It can be scaled to Can be scaled to your specific use by use
+        of the "=", ">", and "<" symbols. Example: Example: "id<=wgu" will pull
+        up all cards that can be played in the Bant color identity, whereas
+        "id=wgu is:commander" would pull up all of the Bant Commanders. You can
+        also simply use the name of the color combination. Example: "id<=Dimir"
+      </p>
+      <p>
+        <span>cmc:</span> Pulls cards based on their converted mana cost. Can
+        also be adjusted with the "=", "<", and ">" symbols. Example: "cmc>7
+        t:artifact id<=ur" would pull up all of the expensive artifacts you can
+        jam into your [[Jhoira of the Ghitu]] deck.
+      </p>
+      <h2>Advanced Syntax</h2>
+      <p>
+        <span>- modifier:</span> This allows you to look for NOT the thing
+        you're specifying. For instance, if you're looking for cheap artifacts
+        that aren't Equipment, you could do a search of "t:artifact -t:equipment
+        cmc< 3" to find all of the nonequipment artifacts that cost less than 3
+        mana. More commonly, however, I find myself just using this to eliminate
+        lands from my searches.
+      </p>
+      <p>
+        <span>usd:</span> If you're in the US, this is a useful function for
+        staying under budget, allowing yourself to never even be tempted with
+        more expensive options. Say you're making a budget [[Tatyova]] deck and
+        you want to see what all of your options are for ramp. You could do
+        "id<=ug o:search o:land usd< 1" to get a decent idea of what all the
+        basic land ramp options are in the color combination. You'd then also
+        have to run a separate one for forests and islands, unless of course you
+        knew about...
+      </p>
+      <p>
+        <span>Parentheses, AND's, and OR's:</span> This is more advanced, but
+        you can also combine things, which is a useful feature I feel like not
+        enough people are using and is also what makes most of my weird Too
+        Specific Top 10 lists work. For instance, when I'm doing tribal things I
+        like to start searching whether a tribe is viable or not by using this:
+        "t:squirrel OR o:squirrel". This lets you know all of the options that
+        have squirrels, but what if you're trying to get a bit more narrow and
+        find token generators for Myrs but you don't want to cut down on your
+        artifact count? In that case, you can use parentheses to narrow down
+        your search a bit, such as in the example of "t:artifact (o:myr OR
+        t:myr) o:token", that way you aren't pulling up every card that makes
+        tokens, or leaving out the Myr that also make tokens.
+      </p>
+    </section>
+  </body>
+</html>
