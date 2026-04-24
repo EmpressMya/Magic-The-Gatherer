@@ -14,59 +14,47 @@
       </div>
       <div class="links">
         <a href="random.html">Random Card</a>
+        <a href="favorites.html">Favorites</a>
         <a href="syntax.html">Syntax Guide</a>
         <a href="contact.html">Contact Us</a>
       </div>
     </nav>
-    <section class="cards-container">
-      <div class="card">
-        <h3>Card 1</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 2</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 3</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 4</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 5</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 6</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 7</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 8</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 9</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 10</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 11</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-      <div class="card">
-        <h3>Card 12</h3>
-        <img src="images/SleightOfHand__45290.jpg" alt="" />
-      </div>
-    </section>
+    <section class="cards-container"></section>
+
+    <script src="js/index.js"></script>
+    <script>
+      let allSearchResults = [];
+      let currentSearchQuery = "";
+      let currentSortBy = "name";
+
+      window.handlePageChange = function (page) {
+        displaySearchResults(allSearchResults, page, 12, currentSortBy);
+      };
+
+      window.handleSortChange = function (sortBy) {
+        currentSortBy = sortBy;
+        displaySearchResults(allSearchResults, 1, 12, sortBy);
+      };
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.get("query");
+
+      if (query) {
+        currentSearchQuery = query;
+        document.querySelector(".cards-container").innerHTML =
+          '<p style="grid-column: 1 / -1; text-align: center; padding: 40px;">Searching for cards...</p>';
+
+        searchCards(query).then((cards) => {
+          allSearchResults = cards;
+          if (cards.length === 0) {
+            console.warn(`No results for query: "${query}"`);
+          }
+          displaySearchResults(cards, 1, 12, "name");
+        });
+      } else {
+        document.querySelector(".cards-container").innerHTML =
+          '<p style="grid-column: 1 / -1; text-align: center; padding: 40px;">Please enter a search query.</p>';
+      }
+    </script>
   </body>
 </html>

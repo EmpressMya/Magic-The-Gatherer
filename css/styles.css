@@ -109,11 +109,198 @@ nav {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.card-link {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  display: block;
+}
+
+.card-link:hover .card {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
 .card img {
   width: 100%;
   height: 300px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.pagination-btn {
+  padding: 10px 20px;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: darkviolet;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sort-select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.sort-select:hover {
+  border-color: purple;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: purple;
+  box-shadow: 0 0 4px rgba(128, 0, 128, 0.3);
+}
+
+.back-button {
+  padding: 10px 20px;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: darkviolet;
+}
+
+.favorite-btn {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 14px 16px;
+  padding: 12px 20px;
+  background-color: transparent;
+  border: 2px solid purple;
+  border-radius: 8px;
+  color: purple;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.favorite-btn:hover {
+  background-color: purple;
+  color: white;
+}
+
+.favorite-btn.favorited {
+  background-color: #e91e63;
+  border-color: #e91e63;
+  color: white;
+}
+
+.favorite-btn.favorited:hover {
+  background-color: #c2185b;
+  border-color: #c2185b;
+}
+
+/* Favorites Page Styles */
+.favorites-page {
+  padding: 120px 40px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.favorites-page h1 {
+  font-size: 40px;
+  color: purple;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.favorites-subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.favorite-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e3e3e3;
+}
+
+.notes-input {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: sans-serif;
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.notes-input:focus {
+  outline: none;
+  border-color: purple;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.save-notes-btn,
+.remove-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save-notes-btn {
+  background-color: purple;
+  color: white;
+  border: none;
+}
+
+.save-notes-btn:hover {
+  background-color: darkviolet;
+}
+
+.remove-btn {
+  background-color: transparent;
+  color: #dc3545;
+  border: 2px solid #dc3545;
+}
+
+.remove-btn:hover {
+  background-color: #dc3545;
+  color: white;
 }
 
 .card-page {
@@ -299,7 +486,14 @@ p span {
   font-size: 40px;
   color: black;
   font-weight: lighter;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
+}
+
+.contact-subtitle {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .contact-form {
@@ -312,22 +506,33 @@ p span {
   color: black;
   font-size: 18px;
   letter-spacing: 1px;
-   font-family: sans-serif;
+  font-family: sans-serif;
   margin-bottom: 10px;
   text-transform: lowercase;
   font-weight: bold;
 }
 
-.contact-form input {
-  height: 53px;
+.contact-form input,
+.contact-form textarea {
   margin-bottom: 22px;
   background: transparent;
-   font-family: sans-serif;
-  border: 3px solid blackq;
+  font-family: sans-serif;
+  border: 3px solid black;
   outline: none;
   color: black;
   font-size: 18px;
   padding: 0 14px;
+}
+
+.contact-form input {
+  height: 53px;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 120px;
+  padding-top: 14px;
+  border-radius: 8px;
 }
 
 .contact-form button {

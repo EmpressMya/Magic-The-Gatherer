@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Details</title>
+    <link rel="stylesheet" href="css/lightbox.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html">Magic the Gatherer</a>
+      </div>
+      <div class="links">
+        <a href="random.html">Random Card</a>
+        <a href="favorites.html">Favorites</a>
+        <a href="syntax.html">Syntax Guide</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </nav>
+    <section class="card-page"></section>
+
+    <div
+      class="back-button-container"
+      style="text-align: center; padding: 20px"
+    >
+      <button
+        class="back-button"
+        onclick="window.history.back()"
+        style="
+          padding: 10px 20px;
+          background-color: purple;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 14px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+        "
+      >
+        ← Back to Results
+      </button>
+    </div>
+
+    <div
+      id="favoriteMessage"
+      style="
+        display: none;
+        position: fixed;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #6fa86f;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        z-index: 1000;
+      "
+    ></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/lightbox-plus-jquery.min.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const cardId = urlParams.get("id");
+
+      if (cardId) {
+        document.querySelector(".card-page").innerHTML =
+          '<p style="text-align: center; padding: 40px;">Loading card...</p>';
+
+        getCardById(cardId)
+          .then((card) => {
+            if (card) {
+              window.currentCardId = card.id;
+              displayCard(card);
+              // Initialize favorites button after card is displayed
+              initFavoritesButton();
+            } else {
+              document.querySelector(".card-page").innerHTML =
+                '<p style="text-align: center; padding: 40px;">Could not load card. Please try again.</p>';
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading card:", error);
+            document.querySelector(".card-page").innerHTML =
+              '<p style="text-align: center; padding: 40px;">Error loading card: ' +
+              error.message +
+              "</p>";
+          });
+      } else {
+        document.querySelector(".card-page").innerHTML =
+          '<p style="text-align: center; padding: 40px;">No card ID provided.</p>';
+      }
+    </script>
+  </body>
+</html>

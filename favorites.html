@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Favorites</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html">Magic the Gatherer</a>
+      </div>
+      <div class="links">
+        <a href="random.html">Random Card</a>
+        <a href="favorites.html">Favorites</a>
+        <a href="syntax.html">Syntax Guide</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </nav>
+
+    <section class="favorites-page">
+      <h1>My Favorites</h1>
+      <p class="favorites-subtitle">Cards you've saved for your decks</p>
+
+      <div id="favoritesLoading" style="text-align: center; padding: 40px">
+        Loading your favorites...
+      </div>
+
+      <div
+        id="favoritesContainer"
+        class="cards-container"
+        style="display: none"
+      ></div>
+
+      <div
+        id="noFavorites"
+        style="display: none; text-align: center; padding: 60px"
+      >
+        <p style="font-size: 20px; color: #666">
+          You haven't saved any favorites yet!
+        </p>
+        <p style="color: #888">Click the heart on any card to add it here.</p>
+        <a
+          href="index.html"
+          class="search-btn"
+          style="
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            padding: 15px 30px;
+          "
+          >Start Searching</a
+        >
+      </div>
+    </section>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+      // Load favorites on page load
+      document.addEventListener("DOMContentLoaded", async () => {
+        const result = await getFavorites();
+
+        document.getElementById("favoritesLoading").style.display = "none";
+
+        if (result.success && result.favorites.length > 0) {
+          displayFavorites(result.favorites);
+        } else {
+          document.getElementById("noFavorites").style.display = "block";
+        }
+      });
+
+      function displayFavorites(favorites) {
+        const container = document.getElementById("favoritesContainer");
+        container.style.display = "grid";
+
+        const cardsHTML = favorites
+          .map(
+            (fav) => `
+          <div class="favorite-card" data-doc-id="${fav.id}">
+            <a href="card-detail.html?id=${fav.cardId}" class="card-link" style="text-decoration: none; color: inherit;">
+              <div class="card">
+                <h3>${fav.cardName}</h3>
+                <img src="${fav.cardImage}" alt="${fav.cardName}" />
+                <p>${fav.cardType}</p>
+              </div>
+            </a>
+            <div class="favorite-actions">
+              <textarea class="notes-input" placeholder="Add notes about this card...">${fav.notes || ""}</textarea>
+              <div class="action-buttons">
+                <button class="save-notes-btn" onclick="saveNotes('${fav.id}')">Save Notes</button>
+                <button class="remove-btn" onclick="removeFavorite('${fav.id}')">Remove</button>
+              </div>
+            </div>
+          </div>
+        `,
+          )
+          .join("");
+
+        container.innerHTML = cardsHTML;
+      }
+
+      // UPDATE - Save notes for a favorite
+      async function saveNotes(docId) {
+        const cardElement = document.querySelector(`[data-doc-id="${docId}"]`);
+        const notesInput = cardElement.querySelector(".notes-input");
+        const newNotes = notesInput.value;
+
+        const result = await updateFavoriteNotes(docId, newNotes);
+
+        if (result.success) {
+          showMessage("Notes saved!", "success");
+        } else {
+          showMessage("Error saving notes", "error");
+        }
+      }
+
+      // DELETE - Remove a favorite
+      async function removeFavorite(docId) {
+        if (
+          confirm(
+            "Are you sure you want to remove this card from your favorites?",
+          )
+        ) {
+          const result = await removeFromFavorites(docId);
+
+          if (result.success) {
+            // Remove from UI
+            const cardElement = document.querySelector(
+              `[data-doc-id="${docId}"]`,
+            );
+            cardElement.remove();
+
+            // Check if any favorites remain
+            const remaining = document.querySelectorAll(".favorite-card");
+            if (remaining.length === 0) {
+              document.getElementById("favoritesContainer").style.display =
+                "none";
+              document.getElementById("noFavorites").style.display = "block";
+            }
+
+            showMessage("Card removed from favorites!", "success");
+          } else {
+            showMessage("Error removing favorite", "error");
+          }
+        }
+      }
+
+      function showMessage(text, type) {
+        const msgDiv = document.createElement("div");
+        msgDiv.textContent = text;
+        msgDiv.style.cssText = `
+          position: fixed;
+          top: 100px;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: ${type === "success" ? "#6fa86f" : "#f8d7da"};
+          color: ${type === "success" ? "white" : "#721c24"};
+          padding: 15px 30px;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: bold;
+          z-index: 1000;
+        `;
+        document.body.appendChild(msgDiv);
+
+        setTimeout(() => {
+          msgDiv.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
