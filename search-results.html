@@ -37,12 +37,12 @@
       let currentSortBy = "name";
 
       window.handlePageChange = function (page) {
-        displaySearchResults(allSearchResults, page, 12, currentSortBy);
+        displaySearchResults(allSearchResults, page, 15, currentSortBy);
       };
 
       window.handleSortChange = function (sortBy) {
         currentSortBy = sortBy;
-        displaySearchResults(allSearchResults, 1, 12, sortBy);
+        displaySearchResults(allSearchResults, 1, 15, sortBy);
       };
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -58,7 +58,7 @@
           if (cards.length === 0) {
             console.warn(`No results for query: "${query}"`);
           }
-          displaySearchResults(cards, 1, 12, "name");
+          displaySearchResults(cards, 1, 15, "name");
         });
       } else {
         document.querySelector(".cards-container").innerHTML =

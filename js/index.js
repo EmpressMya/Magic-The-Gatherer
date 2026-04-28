@@ -172,7 +172,7 @@ function displayLegality(legalities) {
  * @param {number} cardsPerPage - Number of cards per page
  * @param {string} sortBy - Sort option: 'name', 'release-date', 'edhrec'
  */
-function displaySearchResults(cards, currentPage = 1, cardsPerPage = 12, sortBy = 'name') {
+function displaySearchResults(cards, currentPage = 1, cardsPerPage = 15, sortBy = 'name') {
   const container = document.querySelector('.cards-container');
 
   if (cards.length === 0) {
